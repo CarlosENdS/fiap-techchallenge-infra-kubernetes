@@ -76,41 +76,6 @@ output "ecr_docker_login_command" {
   value       = "aws ecr get-login-password --region ${var.aws_region} | docker login --username AWS --password-stdin ${aws_ecr_repository.app.repository_url}"
 }
 
-# ==============================================================================
-# RDS OUTPUTS
-# ==============================================================================
-
-output "rds_endpoint" {
-  description = "RDS instance endpoint"
-  value       = aws_db_instance.postgres.endpoint
-}
-
-output "rds_port" {
-  description = "RDS instance port"
-  value       = aws_db_instance.postgres.port
-}
-
-output "rds_database_name" {
-  description = "RDS database name"
-  value       = aws_db_instance.postgres.db_name
-}
-
-output "rds_username" {
-  description = "RDS master username"
-  value       = aws_db_instance.postgres.username
-  sensitive   = true  # Não mostrar em logs
-}
-
-output "rds_connection_string" {
-  description = "JDBC connection string for the application"
-  value       = "jdbc:postgresql://${aws_db_instance.postgres.endpoint}:${aws_db_instance.postgres.port}/${aws_db_instance.postgres.db_name}"
-  sensitive   = true
-}
-
-output "rds_security_group_id" {
-  description = "Security group ID for RDS"
-  value       = aws_security_group.rds.id
-}
 
 # ==============================================================================
 # EKS OUTPUTS
@@ -139,4 +104,8 @@ output "eks_node_group_name" {
 output "eks_kubectl_config_command" {
   description = "Command to configure kubectl"
   value       = var.eks_cluster_role_arn != "" ? "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main[0].name}" : "EKS cluster not created - roles not provided"
+}
+output "eks_nodes_security_group_id" {
+  description = "Security group ID for EKS Nodes"
+  value       = aws_security_group.eks_nodes.id
 }

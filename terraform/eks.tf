@@ -60,16 +60,6 @@ resource "aws_security_group" "eks_nodes" {
   }
 }
 
-resource "aws_security_group_rule" "nodes_to_rds" {
-  type                     = "ingress"
-  from_port                = 5432
-  to_port                  = 5432
-  protocol                 = "tcp"
-  source_security_group_id = aws_security_group.eks_nodes.id
-  security_group_id        = aws_security_group.rds.id
-  description              = "Allow EKS nodes to access RDS"
-}
-
 resource "aws_eks_cluster" "main" {
   count = var.eks_cluster_role_arn != "" ? 1 : 0
 
