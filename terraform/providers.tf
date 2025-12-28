@@ -15,10 +15,6 @@ terraform {
       name = "fiap-techchallenge-infra-kubernetes" 
     }
   }
-
-  backend "local" {
-    path = "terraform.tfstate"
-  }
 }
 
 provider "aws" {
