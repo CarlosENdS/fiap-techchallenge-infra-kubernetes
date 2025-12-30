@@ -65,7 +65,7 @@ resource "aws_eks_cluster" "main" {
 
   name     = "${var.project_name}-eks-${var.environment}"
   role_arn = var.eks_cluster_role_arn
-  version  = "1.28"  # Versão estável do Kubernetes
+  version  = "1.29"  # Versão estável do Kubernetes
 
   vpc_config {
     subnet_ids = [
@@ -102,14 +102,14 @@ resource "aws_eks_node_group" "main" {
   subnet_ids      = [aws_subnet.public_1.id, aws_subnet.public_2.id]
 
   scaling_config {
-    desired_size = 2  
-    min_size     = 2  
-    max_size     = 4  
+    desired_size = 1  
+    min_size     = 1  
+    max_size     = 2  
   }
 
-  instance_types = ["t3.medium"]  # 2 vCPU, 4GB RAM
+  instance_types = ["t3.small"]  # 2 vCPU, 4GB RAM
 
-  disk_size = 20  # GB
+  disk_size = 10  # GB
 
   ami_type = "AL2_x86_64"  # Amazon Linux 2
 
@@ -136,7 +136,7 @@ resource "aws_eks_addon" "vpc_cni" {
   cluster_name = aws_eks_cluster.main[0].name
   addon_name   = "vpc-cni"
   
-  addon_version = "v1.15.1-eksbuild.1" 
+  addon_version = "v1.18.1-eksbuild.3" 
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -147,7 +147,7 @@ resource "aws_eks_addon" "coredns" {
   cluster_name = aws_eks_cluster.main[0].name
   addon_name   = "coredns"
   
-  addon_version = "v1.10.1-eksbuild.6"
+  addon_version = "v1.11.1-eksbuild.6"
 
   depends_on = [aws_eks_node_group.main]
 }
@@ -158,7 +158,7 @@ resource "aws_eks_addon" "kube_proxy" {
   cluster_name = aws_eks_cluster.main[0].name
   addon_name   = "kube-proxy"
   
-  addon_version = "v1.28.2-eksbuild.2"
+  addon_version = "v1.29.3-eksbuild.2"
 
   depends_on = [aws_eks_node_group.main]
 }
