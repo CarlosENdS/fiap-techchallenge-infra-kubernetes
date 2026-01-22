@@ -30,7 +30,7 @@ completo do cluster EKS.
 - Imagens versionadas e tagueadas
 
 ### 4. EKS Control Plane
-- Cluster Kubernetes 1.28
+- Cluster Kubernetes 1.29
 - Control plane gerenciado pela AWS
 - Endpoint público e privado habilitados
 - Logs de auditoria habilitados
@@ -123,7 +123,7 @@ kubectl get svc -n cargarage
 ```
 
 **Recursos que seriam criados**:
-- EKS Cluster com 2-6 worker nodes
+- EKS Cluster com 1-2 worker nodes
 - Application Load Balancer (via Ingress)
 - Auto-scaling de pods (HPA)
 - Conexão com RDS PostgreSQL
