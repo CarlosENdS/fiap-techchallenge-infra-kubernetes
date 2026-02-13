@@ -105,7 +105,19 @@ output "eks_kubectl_config_command" {
   description = "Command to configure kubectl"
   value       = var.eks_cluster_role_arn != "" ? "aws eks update-kubeconfig --region ${var.aws_region} --name ${aws_eks_cluster.main[0].name}" : "EKS cluster not created - roles not provided"
 }
+
 output "eks_nodes_security_group_id" {
   description = "Security group ID for EKS Nodes"
   value       = aws_security_group.eks_nodes.id
+}
+
+output "eks_cluster_oidc_issuer_url" {
+  description = "OIDC issuer URL for EKS cluster (used for IRSA)"
+  value       = var.eks_cluster_role_arn != "" ? aws_eks_cluster.main[0].identity[0].oidc[0].issuer : null
+}
+
+output "eks_cluster_certificate_authority" {
+  description = "EKS cluster certificate authority data"
+  value       = var.eks_cluster_role_arn != "" ? aws_eks_cluster.main[0].certificate_authority[0].data : null
+  sensitive   = true
 }
